@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Terminal Tools — Windows Troubleshooter</title>
+<style>
+:root{color-scheme:dark;--bg:#061011;--panel:#091b1c;--panel2:#0b2221;--line:#15504a;--green:#16ee91;--text:#e1f7f0;--muted:#a3c8c5;--cyan:#72d9ef;--yellow:#ffd66b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 30% 0,#12372c 0,#061011 55%);font:15px/1.5 "Segoe UI",Arial,sans-serif;color:var(--text)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:var(--cyan)}
+.app{min-height:100vh;max-width:1600px;margin:auto;border:1px solid #135248;display:grid;grid-template-columns:325px minmax(0,1fr);grid-template-rows:52px minmax(0,1fr)}
+.top{grid-column:1/-1;background:#03100f;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 22px}.logo{border:1px solid var(--green);border-radius:5px;color:var(--green);padding:0 7px;font:24px Consolas,monospace}
+.side{border-right:1px solid var(--line);padding:28px 20px;background:#051514}.brand{display:flex;gap:17px;align-items:center;margin-bottom:33px}.brand .icon{font:36px Consolas;border:3px solid var(--green);border-radius:8px;padding:3px 8px;color:var(--green)}.brand strong{font:24px Consolas;color:var(--green)}.brand small{display:block;letter-spacing:2px;color:var(--cyan)}
+.steps{display:grid;gap:7px}.step{display:flex;text-align:left;gap:17px;align-items:center;background:transparent;border:1px solid transparent;border-radius:12px;padding:13px;color:var(--text);width:100%}.step:hover,.step.active{border-color:var(--green);background:#06452b}.step .num{display:grid;place-items:center;border:2px solid var(--green);border-radius:50%;width:38px;height:38px;flex:none;font:bold 19px Consolas;color:var(--green)}.step.active .num{background:var(--green);color:#00251b}.step strong{display:block}.step small{color:var(--muted)}
+.tip{margin-top:26px;padding:16px;border:1px solid var(--line);border-radius:12px;background:#05251d;color:var(--muted)}.tip b{color:var(--green)}
+main{padding:26px 24px;min-width:0}.head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:18px}.head h1{font:700 clamp(23px,2.4vw,35px) Consolas,monospace;color:var(--green);margin:0}.head span{color:var(--cyan);font:13px Consolas;white-space:nowrap}
+.description{color:var(--muted);font-size:17px;margin:0 0 22px}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.card{border:1px solid var(--line);border-radius:13px;background:var(--panel);padding:18px;min-width:0}.card h3{color:var(--cyan);margin:0 0 12px;font-size:18px}.card p,.card li{color:var(--muted)}.card ul,.card ol{padding-left:22px}.card li{margin:7px 0}
+.action{display:inline-flex;align-items:center;justify-content:center;gap:9px;text-decoration:none;background:#064e30;color:var(--text);border:1px solid var(--green);padding:11px 17px;border-radius:9px;font-weight:600;max-width:100%}.action:hover{background:#087c48}.action.secondary{background:var(--panel2);color:var(--green)}.action:disabled{opacity:.35;cursor:not-allowed}
+.panel{border:1px solid var(--line);border-radius:12px;padding:18px;margin-top:18px;background:#041b1a}.panel h3{margin:0 0 13px;color:var(--green)}.example{background:#e8eff1;color:#182b2b;overflow-x:auto;border-radius:7px}.example table{width:100%;border-collapse:collapse;font-size:13px;min-width:600px}.example th,.example td{padding:9px;text-align:left;border-bottom:1px solid #c7d4d4}.example tr.warn{background:#ffe2e1}.example th{background:#d7e6e7}
+.bottom{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-top:18px}.note{border:1px solid var(--yellow);border-radius:11px;padding:16px;color:#ffe9b0}.note b{color:var(--yellow)}.success{border:1px solid var(--green);border-radius:11px;padding:16px;color:var(--muted)}.success b{color:var(--green)}
+.nav{display:flex;justify-content:space-between;gap:12px;margin-top:25px}.nav button{min-width:155px;padding:12px 25px;border-radius:9px;border:1px solid var(--line);background:#061a18;color:var(--green);font-weight:bold}.nav button.next{background:var(--green);color:#003622;border-color:var(--green)}.nav button:disabled{opacity:.35;cursor:not-allowed}
+.field{display:grid;gap:7px;margin-bottom:15px}.field label{color:var(--cyan);font-weight:600}.field input,.field select,.field textarea{background:#031514;border:1px solid #246057;border-radius:8px;padding:12px;color:var(--text);width:100%}.field textarea{min-height:110px;resize:vertical}.cols{display:grid;grid-template-columns:1fr 1fr;gap:15px}.checks{display:grid;gap:10px}.checks label{display:flex;gap:10px;align-items:flex-start;padding:9px 0}.checks input{accent-color:var(--green);margin-top:5px}
+pre{background:#031514;border:1px solid var(--line);border-radius:8px;color:var(--green);padding:15px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+.hidden{display:none!important}.muted{color:var(--muted)}.pill{color:var(--green);border:1px solid var(--line);border-radius:30px;padding:5px 10px;font-size:12px}
+@media(max-width:1050px){.app{grid-template-columns:250px minmax(0,1fr)}.side{padding:18px 10px}.brand strong{font-size:17px}.brand .icon{font-size:23px}.cards{grid-template-columns:1fr}.bottom{grid-template-columns:1fr}.head{align-items:start;flex-direction:column}}
+@media(max-width:720px){.app{display:block}.top{height:50px}.side{border-right:0;border-bottom:1px solid var(--line)}.brand{margin-bottom:12px}.steps{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.step{padding:8px;gap:7px}.step .num{width:28px;height:28px;font-size:14px}.step strong{font-size:11px}.step small{display:none}.tip{display:none}main{padding:18px 12px}.cols{grid-template-columns:1fr}}
+</style></head><body>
+<div class="app"><header class="top"><span class="logo">&gt;_</span><span>Windows App &amp; Game Troubleshooter</span><span class="pill" style="margin-left:auto">LOCAL / OFFLINE UI</span></header>
+<aside class="side"><div class="brand"><div class="icon">&gt;_</div><div><strong>TROUBLESHOOTER</strong><small>APP &amp; GAME ISSUES</small></div></div>
+<div class="steps" id="steps"></div><div class="tip"><b>◉ SAFE MODE</b><p>This wizard provides guided, read-only troubleshooting. It does not replace DLLs, install software, or change Windows settings.</p></div></aside>
+<main><div class="head"><h1 id="title"></h1><span id="progress"></span></div><p class="description" id="desc"></p><div id="body"></div>
+<div class="nav"><button id="back" type="button">← Back</button><button class="next" id="next" type="button">Next →</button></div></main></div>
+<script>
+"use strict";
+const titles=['Select Problem','Trace with Process Monitor','Check Your PC','Recommended Actions','Tools & Resources','Finish'];
+const subtitles=['Choose error & app/game',"Find what’s missing",'System & DLL checks','Step-by-step guidance','Official downloads','Summary & next steps'];
+const state={step:0,issue:'0xc000007b',app:'',exe:'',notes:'',architecture:'unknown',checked:{},results:''};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const resources=[
+['Process Monitor — Microsoft','https://learn.microsoft.com/en-us/sysinternals/downloads/procmon'],
+['Visual C++ latest supported — Microsoft','https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist'],
+['Visual C++ 2010 SP1 — Microsoft','https://www.microsoft.com/en-us/download/details.aspx?id=26999'],
+['DirectX runtime — Microsoft','https://www.microsoft.com/en-us/download/details.aspx?id=35'],
+['Dependencies — GitHub','https://github.com/lucasg/Dependencies/releases'],
+['7-Zip — Official','https://www.7-zip.org/']
+];
+function stepCard(n,title,content){return `<div class="card"><h3>⓵${n} ${title}</h3>${content}</div>`}
+function render(){
+$('steps').innerHTML=titles.map((t,i)=>`<button class="step ${state.step===i?'active':''}" data-step="${i}"><span class="num">${i+1}</span><span><strong>${esc(t)}</strong><small>${esc(subtitles[i])}</small></span></button>`).join('');
+document.querySelectorAll('[data-step]').forEach(b=>b.onclick=()=>go(Number(b.dataset.step)));
+$('title').textContent=`${String(state.step+1).padStart(2,'0')} · ${titles[state.step]}`;
+$('progress').textContent=`GUIDED MODE  |  STEP ${state.step+1} OF 6`;
+$('desc').textContent=[
+'Tell us what happens when you launch your game or application.',
+'Use Process Monitor to identify which files and registry entries your app is trying to access.',
+'Review system details and perform optional, read-only checks.',
+'Follow suggestions for your selected error. Verify the result after each change.',
+'Use trusted sources for tools and runtime installers.',
+'Save your troubleshooting summary and decide what to try next.'
+][state.step];
+let h='';
+if(state.step===0)h=`<div class="cols"><section class="card"><div class="field"><label for="issue">Error / symptom</label><select id="issue">${['0xc000007b','0xc0000135','0xc0000142','Missing DLL','Crashes on launch','Other'].map(v=>`<option ${state.issue===v?'selected':''}>${v}</option>`).join('')}</select></div><div class="field"><label for="app">App / game name</label><input id="app" placeholder="e.g. Example Game" value="${esc(state.app)}"></div><div class="field"><label for="exe">Executable name (optional)</label><input id="exe" placeholder="e.g. Game.exe" value="${esc(state.exe)}"></div></section><section class="card"><h3>How this works</h3><ol><li>Describe your error</li><li>Capture relevant Process Monitor events</li><li>Check your PC</li><li>Follow tailored recommendations</li><li>Open official resources</li><li>Export your summary</li></ol><p>No admin permissions needed to open this interface.</p></section></div>`;
+if(state.step===1)h=`<div class="cards">
+${stepCard('','Download Process Monitor',`<p>Open the official Microsoft page to download the tool.</p><a class="action" target="_blank" rel="noopener noreferrer" href="${resources[0][1]}">↓ Open Process Monitor page</a>`)}
+${stepCard('','Run and capture',`<ol><li>Run Procmon.exe (admin may be requested).</li><li>Press Ctrl+E to pause capture.</li><li>Open Filter (Ctrl+L). Set <b>Process Name</b> → <b>is</b> → your exact executable name → <b>Include</b>, then click Add and OK.</li><li>Clear existing events (Ctrl+X), then resume (Ctrl+E). If you are unsure which process launches, start with its launcher name.</li><li>Launch the failing app, reproduce the error, and pause capture.</li></ol>`)}
+${stepCard('','Analyze results',`<ul><li>Look for relevant <b>NAME NOT FOUND</b>, <b>PATH NOT FOUND</b>, or failed <b>Load Image</b> operations.</li><li>Inspect <b>Load Image</b> operations and DLL names.</li><li>Compare against the app's actual installation path.</li><li>A missing-file probe can be normal; correlate repeated events with the error, loader failure, or event log.</li></ul>`)}
+</div><section class="panel"><h3>Example · Filtered results (fictional data)</h3><div class="example"><table><thead><tr><th>Process</th><th>Operation</th><th>Path</th><th>Result</th></tr></thead><tbody><tr class="warn"><td>Game.exe</td><td>CreateFile</td><td>[App Folder]\\missing.dll</td><td>NAME NOT FOUND</td></tr><tr><td>Game.exe</td><td>Load Image</td><td>[App Folder]\\engine.dll</td><td>SUCCESS</td></tr><tr><td>Game.exe</td><td>RegOpenKey</td><td>[App Settings]</td><td>SUCCESS</td></tr></tbody></table></div></section>
+<div class="bottom"><div class="success"><b>✓ What to look for</b><ul><li>Repeated missing-file events for the same component</li><li>Failed DLL loads relevant to your game</li><li>File paths inside the app installation directory</li><li>Save a filtered <b>.PML</b> trace using File → Save if you need to share evidence (review personal paths first)</li></ul></div><div class="note"><b>! Important</b><p>Do not conclude that every NAME NOT FOUND event is the cause. Process Monitor traces are clues, not a diagnosis on their own.</p></div></div>
+<div class="panel"><div class="field"><label for="notes">Your findings (optional)</label><textarea id="notes" placeholder="Example: Game.exe searched for example.dll in the app folder.">${esc(state.notes)}</textarea></div></div>`;
+if(state.step===2)h=`<div class="cols"><div class="card"><h3>System details</h3><p>This browser page cannot safely inspect installed Windows DLLs directly.</p><p>Use the included read-only PowerShell diagnostic script if needed, or enter known details below.</p><div class="field"><label for="architecture">Application architecture</label><select id="architecture">${['unknown','x86 (32-bit)','x64 (64-bit)'].map(v=>`<option ${state.architecture===v?'selected':''}>${v}</option>`).join('')}</select></div><button class="action secondary" id="copycmd">Copy read-only diagnostic command</button><p class="muted">The command invokes the included local VC++ 2010 DLL architecture checker. Review it before running.</p></div><div class="card"><h3>Checklist</h3><div class="checks">${[['reboot','I restarted the app / PC'],['verify','I verified the app installation files'],['runtime','I checked the required VC++ / .NET runtime'],['events','I checked Event Viewer for an application error']].map(([id,t])=>`<label><input type="checkbox" data-check="${id}" ${state.checked[id]?'checked':''}> ${t}</label>`).join('')}</div></div></div><section class="panel"><h3>Diagnostics output (paste manually)</h3><div class="field"><textarea id="results" placeholder="Paste read-only diagnostic output here.">${esc(state.results)}</textarea></div></section>`;
+if(state.step===3){let advice={
+'0xc000007b':['Check the executable architecture (x86 vs x64).','Check the relevant Visual C++ runtime architecture; some 64-bit games use 32-bit components.','Repair or install the official runtime matching the component requirements.','Use Process Monitor and Dependencies to identify an actual failing DLL load.','Do not overwrite Windows System32 or SysWOW64 DLLs manually.'],
+'0xc0000135':['Identify the missing .NET or VC++ component from the message or event logs.','Consult the application publisher’s prerequisites.','Install the required official runtime and retry.'],
+'0xc0000142':['Check Event Viewer for the faulting module.','Verify application files and try a clean launch without overlays.','Check vendor compatibility and required runtimes.'],
+'Missing DLL':['Record the exact DLL filename and the application path.','Use the official app installer or vendor runtime package.','Avoid downloading individual DLL files from third-party sites.'],
+'Crashes on launch':['Check the Windows Application event log.','Verify installation files and system requirements.','Disable conflicting overlays temporarily and retest.'],
+'Other':['Record the complete error message.','Review vendor documentation and Event Viewer.','Use Process Monitor to narrow down the failing component.']
+}[state.issue];h=`<div class="panel"><h3>Recommended for ${esc(state.issue)}</h3><div class="checks">${advice.map((a,i)=>`<label><input type="checkbox" data-check="advice${i}" ${state.checked['advice'+i]?'checked':''}><span><b>${i+1}.</b> ${esc(a)}</span></label>`).join('')}</div></div><div class="note" style="margin-top:18px"><b>Safety:</b> These are recommendations, not automatic fixes. Create a restore point before any major system-level changes.</div>`}
+if(state.step===4)h=`<div class="cards">${resources.map(([name,url])=>`<div class="card"><h3>${esc(name)}</h3><p>Opens the publisher's official website or repository.</p><a class="action secondary" href="${url}" target="_blank" rel="noopener noreferrer">Open resource ↗</a></div>`).join('')}</div>`;
+if(state.step===5)h=`<div class="cols"><div class="card"><h3>Summary</h3><p><b>App:</b> ${esc(state.app||'Not provided')}</p><p><b>Executable:</b> ${esc(state.exe||'Not provided')}</p><p><b>Issue:</b> ${esc(state.issue)}</p><p><b>Architecture:</b> ${esc(state.architecture)}</p><p><b>Checklist items completed:</b> ${Object.values(state.checked).filter(Boolean).length}</p><p>Save a text report for support or your own records.</p><button class="action" id="download">↓ Download report (.txt)</button></div><div class="card"><h3>Next steps</h3><p>If the app now works, document which change resolved the issue.</p><p>If it still fails, share the exact error, diagnostic output, and relevant Process Monitor observations with the app vendor.</p><button class="action secondary" id="restart">↻ Start again</button></div></div>`;
+$('body').innerHTML=h;
+$('back').disabled=state.step===0;$('next').textContent=state.step===5?'Finish ✓':'Next →';
+if($('issue'))$('issue').onchange=e=>state.issue=e.target.value;
+if($('app'))$('app').oninput=e=>state.app=e.target.value;
+if($('exe'))$('exe').oninput=e=>state.exe=e.target.value;
+if($('notes'))$('notes').oninput=e=>state.notes=e.target.value;
+if($('architecture'))$('architecture').onchange=e=>state.architecture=e.target.value;
+if($('results'))$('results').oninput=e=>state.results=e.target.value;
+document.querySelectorAll('[data-check]').forEach(el=>el.onchange=e=>state.checked[e.target.dataset.check]=e.target.checked);
+if($('copycmd'))$('copycmd').onclick=()=>copyText('powershell.exe -NoProfile -ExecutionPolicy Bypass -File "scripts\\Check-VC2010Architecture.ps1"');
+if($('download'))$('download').onclick=downloadReport;
+if($('restart'))$('restart').onclick=()=>{state.step=0;state.checked={};state.results='';state.notes='';render()};
+}
+function go(n){state.step=Math.max(0,Math.min(5,n));render();window.scrollTo({top:0,behavior:'smooth'})}
+$('back').onclick=()=>go(state.step-1);
+$('next').onclick=()=>{if(state.step<5)go(state.step+1);else downloadReport()};
+function report(){return ['WINDOWS APP & GAME TROUBLESHOOTER','================================','App: '+(state.app||'Not provided'),'Executable: '+(state.exe||'Not provided'),'Issue: '+state.issue,'Architecture: '+state.architecture,'','Process Monitor observations:',state.notes||'Not provided','','Checklist:',...Object.entries(state.checked).filter(([,v])=>v).map(([k])=>'- '+k),'','Diagnostics:',state.results||'Not provided','','Note: Observations are not a confirmed root-cause diagnosis.'].join('\r\n')}
+function downloadReport(){const blob=new Blob([report()],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='troubleshooting-report.txt';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function copyText(t){if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(()=>alert('Command copied.')).catch(()=>fallback(t))}else fallback(t)}
+function fallback(t){const e=document.createElement('textarea');e.value=t;document.body.append(e);e.select();try{document.execCommand('copy');alert('Command copied.')}catch(_){prompt('Copy this command:',t)}e.remove()}
+render();
+</script></body></html>

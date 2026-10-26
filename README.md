@@ -1,27 +1,73 @@
-## Guided troubleshooting (new)
+# Terminal Troubleshooter — EXE + BAT + HTML
 
-Open **`Launch-Troubleshooter.bat`** and follow the **four-step wizard**:
+## Launch options
 
-1. **Describe the problem:** Choose an error code and optionally enter the game/app name.
-2. **Check your PC:** Run optional read-only Windows or Visual C++ 2010 checks and copy the results.
-3. **Follow tailored advice:** Read steps specific to the selected error, without automatic changes.
-4. **Open trusted resources:** Official Microsoft and developer download pages; copy a summary to share with support.
+| File | Behavior |
+|---|---|
+| **`Troubleshooter.exe`** | **Windows 64-bit EXE launcher** that opens the modern six-step HTML GUI in a dedicated **Microsoft Edge app-style window**. If Edge cannot start, it falls back to the default browser. |
+| **`Launch-Troubleshooter.bat`** | Preserved: launches the four-step Windows Forms PowerShell GUI. |
+| **`Troubleshooter.html`** | Preserved: opens the six-step HTML GUI directly in your browser. |
 
-Use **Back** and **Next** to move between steps, or **Start again** to reset. The interface is Windows-only, with a Linux-terminal-inspired dark appearance. It does not install or replace files, modify system settings, or guarantee a fix.
+The EXE is a real Windows x64 PE executable, but **it is a launcher**, not a bundled browser engine or self-contained app. It requires the local `Troubleshooter.html` file beside it and Microsoft Edge for the standalone app-style window. Edge is normally available on Windows 10/11. Keep the whole extracted folder together. No admin rights are required for the EXE launcher.
 
-<div align="center">
+## Screenshot previews
 
-# 🛠️ Windows App & Game Troubleshooter
+![Windows Forms GUI illustration](assets/screenshots/gui-windows-forms-overview.png)
 
-### Diagnose launch errors. Inspect dependencies. Fix safely.
+![Process Monitor fictional training example](assets/screenshots/02-process-monitor.png)
 
-**A practical, open-source troubleshooting guide for Windows games and desktop applications.**
+Both images are illustrative, not live captures. The Process Monitor table contains fictional data with no personal Windows directories.
 
-![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows&logoColor=white) ![PowerShell](https://img.shields.io/badge/PowerShell-Diagnostics-5391FE?logo=powershell&logoColor=white) ![License](https://img.shields.io/badge/License-MIT-22c55e) ![Status](https://img.shields.io/badge/Status-Diagnostic%20Toolkit-f59e0b)
+## Security and limitations
 
-[**🚀 Quick Start**](#-quick-start) · [**📸 Screenshots**](#-screenshots) · [**📚 Guides**](#-documentation) · [**🧪 Case Study**](#-real-world-case-study)
+- The EXE launches the local HTML page only. It does not download or install software, change the registry, or alter DLLs.
+- The HTML interface guides the user through real manual troubleshooting steps and produces a report, but cannot inspect Windows DLLs automatically due to browser sandbox restrictions.
+- The BAT's PowerShell policy override applies only to its child process.
+- **Build validation:** EXE was cross-compiled and verified as Windows PE32+ x64 GUI. It has **not** been executed on Windows in this environment.
 
-</div>
+## EXE source
+
+`launcher.c` is included for auditability and rebuilds. The EXE uses the Windows Shell API to launch Microsoft Edge with `--app=file:///...`, falling back to the system's default HTML handler.
+
+---
+
+# Terminal Tools — Windows App & Game Troubleshooter
+
+A Windows troubleshooting toolkit with **two separate graphical interfaces**.
+
+| Launcher | What opens |
+| --- | --- |
+| **`Launch-Troubleshooter.bat`** | Opens the **native Windows Forms GUI** with a Linux-terminal-inspired dark theme, using the bundled PowerShell GUI script. It does **not** open HTML. |
+| **`Troubleshooter.html`** | Opens the **independent browser-based six-step wizard** directly, without BAT or PowerShell. |
+
+> The BAT starts PowerShell with `-ExecutionPolicy Bypass` **only for the launched process**. It does not permanently change the computer's execution policy. Corporate policy may still prevent scripts from running.
+
+## 🖥️ Application interface
+
+**Windows Forms GUI launched by BAT** — design illustration (not an actual Windows capture):
+
+![Illustrative Windows Forms GUI overview](assets/screenshots/gui-windows-forms-overview.png)
+
+**HTML wizard** — six guided stages: Select Problem → Trace with Process Monitor → Check Your PC → Recommended Actions → Tools & Resources → Finish.
+
+The HTML page can be opened directly by double-clicking `Troubleshooter.html`. The browser cannot automatically inspect system DLLs or execute Windows diagnostics; the wizard provides instructions, checklists, and a downloadable report.
+
+## 🚀 Launch
+
+1. Extract the ZIP completely.
+2. For the **Windows desktop GUI**, double-click `Launch-Troubleshooter.bat`.
+3. For the **browser interface**, double-click `Troubleshooter.html`.
+4. In either interface, follow the on-screen steps and use official resources only.
+
+The Windows Forms GUI includes four steps: identify the error, run optional read-only diagnostics, read recommended actions, and open trusted resources. The HTML wizard has six steps.
+
+## 📸 Screenshots
+
+| Desktop GUI (illustrative) | Process Monitor example (illustrative) |
+| :---: | :---: |
+| ![Windows Forms GUI mockup](assets/screenshots/gui-windows-forms-overview.png) | ![Fictional Process Monitor table with generic paths](assets/screenshots/02-process-monitor.png) |
+
+Both images above are **illustrations**, not genuine screenshots of running applications. The Process Monitor image contains fictional example rows and no personal directories.
 
 ---
 
@@ -38,16 +84,6 @@ Use **Back** and **Next** to move between steps, or **Start again** to reset. Th
 
 > [!IMPORTANT]
 > This is a **diagnostic toolkit**, not a one-click fixer. Errors can have multiple causes; no repair is guaranteed. Never download random DLLs or replace shared Windows files without verification.
-
-## 🖥️ Windows GUI Launcher
-
-Double-click **`Launch-Troubleshooter.bat`** to open the desktop graphical interface (Windows 10/11, Windows PowerShell 5.1). The BAT launches `scripts/Troubleshooter-GUI.ps1`.
-
-- **Official downloads:** Microsoft Visual C++, DirectX, Sysinternals Process Monitor, Dependencies, and 7-Zip links.
-- **Read-only diagnostics:** inspect Visual C++ 2010 DLL architecture and Windows version; copy the output.
-- **Step-by-step guidance:** select the error, run optional checks, review recommendations, and open official resources.
-
-**Safety:** no silent downloads, installs, registry edits, or DLL replacement. Keep the BAT file together with the `scripts` and `docs` folders. The GUI has not yet been visually tested on Windows, so a genuine screenshot is not available yet.
 
 ## 🚀 Quick Start
 
@@ -67,19 +103,9 @@ powershell -NoProfile -File .\scripts\Check-VC2010Architecture.ps1
 
 **6. Retest and record the outcome** — keep track of what actually worked and how to undo changes.
 
-## 🖥️ Guided GUI — visual previews
-
-These four images are **illustrative previews recreated from the PowerShell Windows Forms layout**, not screenshots captured from a running Windows application. Actual Windows screenshots can be substituted after manual testing.
-
-| Step 1 · Select problem | Step 2 · Read-only diagnostics |
-|:--:|:--:|
-| ![Problem selection preview](assets/screenshots/gui-step-01.png) | ![Diagnostics preview](assets/screenshots/gui-step-02.png) |
-| Step 3 · Recommended actions | Step 4 · Official resources |
-| ![Guidance preview](assets/screenshots/gui-step-03.png) | ![Resources preview](assets/screenshots/gui-step-04.png) |
-
 ## 📸 Screenshots
 
-Illustrative Process Monitor example with directory paths hidden, alongside diagnostic screenshots. These images do **not** prove the game was fixed.
+New fictional Process Monitor training example with generic paths and no personal directory details, alongside diagnostic screenshots. These images do **not** prove the game was fixed.
 
 <table>
 <tr><td align="center"><b>01 · The launch error</b></td><td align="center"><b>02 · Trace with Process Monitor</b></td></tr>
