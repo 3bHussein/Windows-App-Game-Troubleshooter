@@ -45,7 +45,7 @@ Double-click **`Launch-Troubleshooter.bat`** to open the desktop graphical inter
 
 - **Official downloads:** Microsoft Visual C++, DirectX, Sysinternals Process Monitor, Dependencies, and 7-Zip links.
 - **Read-only diagnostics:** inspect Visual C++ 2010 DLL architecture and Windows version; copy the output.
-- **Local guides:** open the bundled diagnostic, error-code, extraction, rollback and case-study documents.
+- **Step-by-step guidance:** select the error, run optional checks, review recommendations, and open official resources.
 
 **Safety:** no silent downloads, installs, registry edits, or DLL replacement. Keep the BAT file together with the `scripts` and `docs` folders. The GUI has not yet been visually tested on Windows, so a genuine screenshot is not available yet.
 
@@ -67,13 +67,23 @@ powershell -NoProfile -File .\scripts\Check-VC2010Architecture.ps1
 
 **6. Retest and record the outcome** — keep track of what actually worked and how to undo changes.
 
+## 🖥️ Guided GUI — visual previews
+
+These four images are **illustrative previews recreated from the PowerShell Windows Forms layout**, not screenshots captured from a running Windows application. Actual Windows screenshots can be substituted after manual testing.
+
+| Step 1 · Select problem | Step 2 · Read-only diagnostics |
+|:--:|:--:|
+| ![Problem selection preview](assets/screenshots/gui-step-01.png) | ![Diagnostics preview](assets/screenshots/gui-step-02.png) |
+| Step 3 · Recommended actions | Step 4 · Official resources |
+| ![Guidance preview](assets/screenshots/gui-step-03.png) | ![Resources preview](assets/screenshots/gui-step-04.png) |
+
 ## 📸 Screenshots
 
-Real screenshots from a Windows 10 / Batman: Arkham Knight troubleshooting session. They illustrate the process; they do **not** prove the game was fixed.
+Illustrative Process Monitor example with directory paths hidden, alongside diagnostic screenshots. These images do **not** prove the game was fixed.
 
 <table>
 <tr><td align="center"><b>01 · The launch error</b></td><td align="center"><b>02 · Trace with Process Monitor</b></td></tr>
-<tr><td><img src="assets/screenshots/01-error-dialog.png" width="430" alt="0xc000007b launch error dialog" /></td><td><img src="assets/screenshots/02-process-monitor.png" width="430" alt="Process Monitor showing BatmanAK.exe events" /></td></tr>
+<tr><td><img src="assets/screenshots/01-error-dialog.png" width="430" alt="0xc000007b launch error dialog" /></td><td><img src="assets/screenshots/02-process-monitor.png" width="430" alt="Illustrative Process Monitor walkthrough with directory paths hidden" /></td></tr>
 <tr><td colspan="2" align="center"><b>03 · Inspect official runtime files using 7-Zip</b></td></tr>
 <tr><td colspan="2" align="center"><img src="assets/screenshots/03-dll-extraction.png" width="750" alt="7-Zip showing VC++ runtime CAB contents" /></td></tr>
 </table>
@@ -139,7 +149,7 @@ MIT-licensed original documentation and scripts · Unofficial community project 
 </div>
 
 
-> **Screenshot privacy:** User-profile paths in the Process Monitor screenshot have been replaced with generic example paths. The screenshot is illustrative; refer to your own trace for exact directories.
+> **Screenshot privacy:** The Process Monitor illustration omits file and Windows directory paths. It is a visual guide, not an actual captured trace.
 
 
 ## Linux-inspired GUI launcher (Windows)
