@@ -1,7 +1,15 @@
 @echo off
 setlocal
-set "GUI=%~dp0scripts\Troubleshooter-GUI.ps1"
-if not exist "%GUI%" (echo Missing GUI script & pause & exit /b 1)
-powershell.exe -NoProfile -STA -File "%GUI%"
-if errorlevel 1 pause
+cd /d "%~dp0"
+if not exist "%~dp0scripts\Troubleshooter-GUI.ps1" (
+ echo ERROR: Missing scripts\Troubleshooter-GUI.ps1
+ pause
+ exit /b 1
+)
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -STA -File "%~dp0scripts\Troubleshooter-GUI.ps1"
+if errorlevel 1 (
+ echo.
+ echo GUI could not start. Please share the error above.
+ pause
+)
 endlocal

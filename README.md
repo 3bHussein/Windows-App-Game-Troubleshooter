@@ -1,3 +1,14 @@
+## Guided troubleshooting (new)
+
+Open **`Launch-Troubleshooter.bat`** and follow the **four-step wizard**:
+
+1. **Describe the problem:** Choose an error code and optionally enter the game/app name.
+2. **Check your PC:** Run optional read-only Windows or Visual C++ 2010 checks and copy the results.
+3. **Follow tailored advice:** Read steps specific to the selected error, without automatic changes.
+4. **Open trusted resources:** Official Microsoft and developer download pages; copy a summary to share with support.
+
+Use **Back** and **Next** to move between steps, or **Start again** to reset. The interface is Windows-only, with a Linux-terminal-inspired dark appearance. It does not install or replace files, modify system settings, or guarantee a fix.
+
 <div align="center">
 
 # 🛠️ Windows App & Game Troubleshooter
@@ -129,3 +140,15 @@ MIT-licensed original documentation and scripts · Unofficial community project 
 
 
 > **Screenshot privacy:** User-profile paths in the Process Monitor screenshot have been replaced with generic example paths. The screenshot is illustrative; refer to your own trace for exact directories.
+
+
+## Linux-inspired GUI launcher (Windows)
+
+Double-click **`Launch-Troubleshooter.bat`** to launch the dark, terminal-inspired Windows Forms interface. The launcher uses `powershell.exe -NoProfile -ExecutionPolicy Bypass -STA -File` so the scripts can run **only in that process** without permanently changing your Windows execution policy. It does not require administrator rights. If organizational security policy blocks PowerShell, ask your administrator instead of bypassing it.
+
+The three GUI tabs provide official publisher links, read-only diagnostics, and local documentation. **This is a Windows application with a Linux-inspired appearance, not a native Linux executable.**
+
+
+### Fixed in this release
+
+The wizard keeps Windows Forms controls in script scope, so the **Check Windows**, **Check VC++ 2010 DLLs**, and **Copy results** button handlers can update the diagnostics output without a `PropertyNotFound` error. The same scope fix applies to the issue selector and app-name field.
