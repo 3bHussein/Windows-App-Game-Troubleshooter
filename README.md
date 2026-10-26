@@ -28,6 +28,16 @@
 > [!IMPORTANT]
 > This is a **diagnostic toolkit**, not a one-click fixer. Errors can have multiple causes; no repair is guaranteed. Never download random DLLs or replace shared Windows files without verification.
 
+## 🖥️ Windows GUI Launcher
+
+Double-click **`Launch-Troubleshooter.bat`** to open the desktop graphical interface (Windows 10/11, Windows PowerShell 5.1). The BAT launches `scripts/Troubleshooter-GUI.ps1`.
+
+- **Official downloads:** Microsoft Visual C++, DirectX, Sysinternals Process Monitor, Dependencies, and 7-Zip links.
+- **Read-only diagnostics:** inspect Visual C++ 2010 DLL architecture and Windows version; copy the output.
+- **Local guides:** open the bundled diagnostic, error-code, extraction, rollback and case-study documents.
+
+**Safety:** no silent downloads, installs, registry edits, or DLL replacement. Keep the BAT file together with the `scripts` and `docs` folders. The GUI has not yet been visually tested on Windows, so a genuine screenshot is not available yet.
+
 ## 🚀 Quick Start
 
 **1. Capture the error** — note the exact message, app, Windows version, and when it happens.
@@ -116,3 +126,6 @@ Found another reproducible startup issue? Open an issue using the [bug report te
 MIT-licensed original documentation and scripts · Unofficial community project · Not affiliated with Microsoft or game publishers.
 
 </div>
+
+
+> **Screenshot privacy:** User-profile paths in the Process Monitor screenshot have been replaced with generic example paths. The screenshot is illustrative; refer to your own trace for exact directories.
